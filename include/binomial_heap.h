@@ -25,6 +25,11 @@ class BinomialHeap : public IHeap<T> {
         Node() : degree(-1), child(nullptr), sibling(nullptr) {}
 
         Node(T key) : key(key), degree(0), child(nullptr), sibling(nullptr) {};
+
+        ~Node() {
+            delete *child;
+            delete *sibling;
+        }
     };
 
     Node *head = nullptr;
@@ -155,6 +160,10 @@ public:
         resultEnd->sibling = nullptr;
         head = resultBegin->sibling;
         delete resultBegin;
+    }
+
+    ~BinomialHeap() {
+        delete head;
     }
 };
 
