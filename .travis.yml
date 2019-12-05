@@ -37,4 +37,4 @@ script:
   - cd build
   - cmake ..
   - make
-  -ctest
+  - ctest
