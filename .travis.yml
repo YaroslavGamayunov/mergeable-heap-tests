@@ -1,11 +1,17 @@
-matrix:
-  include:
-    - os: osx
-      osx_image: xcode10.1
-    
-    - os: osx
-      osx_image: xcode9.4
 language: cpp
-script: make
-before_install:
-    - eval "${MATRIX_EVAL}"
+compiler: gcc
+
+os: linux
+addons:
+apt:
+sources:
+- ubuntu-toolchain-r-test
+packages:
+- g++-7
+
+script:
+- export CC=gcc-7
+- export CXX=g++-7
+- cmake --version
+- cmake CMakeLists.txt
+- cmake  --build . --target neat
