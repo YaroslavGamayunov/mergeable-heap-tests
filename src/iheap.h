@@ -11,7 +11,10 @@ public:
 
     virtual T extractMin() = 0;
 
+    virtual unsigned int size() = 0;
+
     virtual void meld(IHeap<T> &other) = 0;
+
 };
 
 #endif //HEAPS_IHEAP_H

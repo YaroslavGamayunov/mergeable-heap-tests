@@ -2,13 +2,19 @@
 #define HEAPS_STL_HEAP_H
 
 #include <set>
-#include "../src/iheap.h"
-#include "../src/exceptions.h"
+#include "iheap.h"
+#include "heap_exceptions.h"
 
 template<typename T>
 class StlHeap : public IHeap<T> {
-    std::multiset<T> data;
+    std::multiset<int> data;
 public:
+    StlHeap() = default;
+
+    StlHeap(T key) {
+        data.insert(key);
+    }
+
     void insert(T key) override {
         data.insert(key);
     }
@@ -30,12 +36,20 @@ public:
     }
 
     void meld(IHeap<T> &other) override {
+        if (this == &other) {
+            return;
+        }
         try {
-            std::set<T> otherData = dynamic_cast<StlHeap<T> &>(other).data();
-            this->data.insert(otherData.begin(), otherData.end());
-        } catch (std::bad_cast e) {
+            StlHeap<T> &otherCasted = dynamic_cast<StlHeap<T> &>(other);
+            data.insert(otherCasted.data.begin(), otherCasted.data.end());
+            otherCasted.data.clear();
+        } catch (const std::bad_cast &e) {
             throw IncorrectHeapTypeException();
         }
+    }
+
+    unsigned int size() override {
+        return data.size();
     }
 };
 

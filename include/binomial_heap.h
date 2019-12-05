@@ -4,7 +4,7 @@
 #include <typeinfo>
 #include <iostream>
 #include "../src/iheap.h"
-#include "../src/exceptions.h"
+#include "../src/heap_exceptions.h"
 
 template<typename T>
 class BinomialHeap : public IHeap<T> {
@@ -24,15 +24,11 @@ class BinomialHeap : public IHeap<T> {
 
         Node() : degree(-1), child(nullptr), sibling(nullptr) {}
 
-        Node(T key) : key(key), degree(0), child(nullptr), sibling(nullptr) {};
-
-        ~Node() {
-            delete *child;
-            delete *sibling;
-        }
+        explicit Node(T key) : key(key), degree(0), child(nullptr), sibling(nullptr) {};
     };
 
     Node *head = nullptr;
+    unsigned int heapSize = 0;
 
     BinomialHeap(Node *head) : head(head) {}
 
@@ -41,6 +37,7 @@ public:
 
     explicit BinomialHeap(T key) {
         head = new Node(key);
+        heapSize = 1;
     }
 
     void insert(T key) override {
@@ -81,6 +78,8 @@ public:
 
         if (prevMinNode != nullptr) {
             prevMinNode->sibling = minNode->sibling;
+        } else {
+            head = head->sibling;
         }
 
         T minKey = minNode->key;
@@ -88,6 +87,11 @@ public:
         delete minNode;
         BinomialHeap h(child);
         meld(h);
+        heapSize--;
+        if (heapSize == 0) {
+            head = nullptr;
+        }
+
         return minKey;
     }
 
@@ -126,10 +130,13 @@ public:
 
         head = resultBegin->sibling;
         delete resultBegin;
-        makeTreeOrdersUnique();
+        heapSize += other->heapSize;
+        other->heapSize = 0;
+        other->head = nullptr;
+        makeDegreesUnique();
     }
 
-    void makeTreeOrdersUnique() {
+    void makeDegreesUnique() {
         Node *node = head;
 
         Node *resultBegin = new Node();
@@ -162,8 +169,8 @@ public:
         delete resultBegin;
     }
 
-    ~BinomialHeap() {
-        delete head;
+    unsigned int size() override {
+        return heapSize;
     }
 };
 
