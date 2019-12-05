@@ -30,7 +30,7 @@ class BinomialHeap : public IHeap<T> {
     Node *head = nullptr;
     unsigned int heapSize = 0;
 
-    BinomialHeap(Node *head) : head(head) {}
+    BinomialHeap(Node *head) : head(head) {} // shallow copy
 
 public:
     BinomialHeap() = default;
