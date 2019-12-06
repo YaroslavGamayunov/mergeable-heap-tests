@@ -50,7 +50,7 @@ public:
     void runTests() {
         std::vector<StlHeap<int>> correctHeaps;
         std::vector<HeapType<int>> subjectHeaps;
-
+        
         for (Operation &op : operations) {
             switch (op.type) {
 
@@ -103,6 +103,7 @@ public:
 TEST_F(HeapTest, BinomialHeapTest) {
     runTests<BinomialHeap>();
 }
+
 TEST_F(HeapTest, StlHeapTest) {
     runTests<StlHeap>();
 }
