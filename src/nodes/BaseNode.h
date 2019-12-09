@@ -39,7 +39,7 @@ public:
 
     BaseNode &operator=(const BaseNode &other) {
         if (this == &other) {
-            return;
+            return this;
         }
         BaseNode tmp(other);
 
@@ -52,7 +52,7 @@ public:
 
     BaseNode &operator=(const BaseNode &&other) {
         if (this == &other) {
-            return;
+            return this;
         }
 
         this->right = nullptr;
