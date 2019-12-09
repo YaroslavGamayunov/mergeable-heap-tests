@@ -1,9 +1,9 @@
-#ifndef HEAPS_STL_HEAP_H
-#define HEAPS_STL_HEAP_H
+#ifndef HEAPS_STLHEAP_H
+#define HEAPS_STLHEAP_H
 
 #include <set>
-#include "iheap.h"
-#include "heap_exceptions.h"
+#include "IHeap.h"
+#include "HeapExceptions.h"
 
 template<typename T>
 class StlHeap : public IHeap<T> {
@@ -15,7 +15,7 @@ public:
         data.insert(key);
     }
 
-    void insert(T key) override {
+    void insert(const T &key) override {
         data.insert(key);
     }
 
@@ -53,4 +53,4 @@ public:
     }
 };
 
-#endif //HEAPS_STL_HEAP_H
+#endif //HEAPS_STLHEAP_H

@@ -1,8 +1,9 @@
 
 #include <gtest/gtest.h>
 #include <random>
-#include "../include/binomial_heap.h"
-#include "../src/stl_heap.h"
+#include "../include/BinomialHeap.h"
+#include "../src/StlHeap.h"
+#include "../include/LeftistHeap.h"
 
 class HeapTest : public ::testing::Test {
 
@@ -50,10 +51,9 @@ public:
     void runTests() {
         std::vector<StlHeap<int>> correctHeaps;
         std::vector<HeapType<int>> subjectHeaps;
-        
+
         for (Operation &op : operations) {
             switch (op.type) {
-
                 case ADD: {
                     ASSERT_NO_THROW(correctHeaps.push_back(StlHeap<int>(op.key)));
                     ASSERT_NO_THROW(subjectHeaps.push_back(HeapType<int>(op.key)));
@@ -104,11 +104,12 @@ TEST_F(HeapTest, BinomialHeapTest) {
     runTests<BinomialHeap>();
 }
 
-TEST_F(HeapTest, StlHeapTest) {
-    runTests<StlHeap>();
+TEST_F(HeapTest, LeftistHeapTest) {
+    runTests<LeftistHeap>();
 }
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
+
     return RUN_ALL_TESTS();
 }

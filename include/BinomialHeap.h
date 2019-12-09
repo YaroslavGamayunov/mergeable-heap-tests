@@ -1,10 +1,10 @@
-#ifndef HEAPS_BINOMIAL_HEAP_H
-#define HEAPS_BINOMIAL_HEAP_H
+#ifndef HEAPS_BINOMIALHEAP_H
+#define HEAPS_BINOMIALHEAP_H
 
 #include <typeinfo>
 #include <iostream>
-#include "../src/iheap.h"
-#include "../src/heap_exceptions.h"
+#include "../src/IHeap.h"
+#include "../src/HeapExceptions.h"
 
 template<typename T>
 class BinomialHeap : public IHeap<T> {
@@ -81,7 +81,7 @@ class BinomialHeap : public IHeap<T> {
 
         Node() : degree(-1), child(nullptr), sibling(nullptr) {}
 
-        explicit Node(T key) : key(key), degree(0), child(nullptr), sibling(nullptr) {};
+        explicit Node(const T &key) : key(key), degree(0), child(nullptr), sibling(nullptr) {};
     };
 
     explicit BinomialHeap(Node *head) : head(head) {} // shallow copy
@@ -123,14 +123,17 @@ class BinomialHeap : public IHeap<T> {
 public:
     BinomialHeap() = default;
 
-    explicit BinomialHeap(T key) {
+    explicit BinomialHeap(const T &key) {
         head = new Node(key);
         heapSize = 1;
     }
 
     // Law of The Big Five
     BinomialHeap(const BinomialHeap &other) {
-        head = new Node(*other.head);
+
+        if (other.head != nullptr) {
+            head = new Node(*other.head);
+        }
         heapSize = other.heapSize;
     }
 
@@ -174,7 +177,7 @@ public:
 
     //
 
-    void insert(T key) override {
+    void insert(const T &key) override {
         BinomialHeap<T> h(key);
         meld(h);
     }
@@ -282,4 +285,4 @@ public:
     }
 };
 
-#endif //HEAPS_BINOMIAL_HEAP_H
+#endif //HEAPS_BINOMIALHEAP_H
