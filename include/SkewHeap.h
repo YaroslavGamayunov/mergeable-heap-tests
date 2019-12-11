@@ -1,5 +1,5 @@
-#ifndef HEAPS_SKEWHEAP_H
-#define HEAPS_SKEWHEAP_H
+#ifndef HEAPS_SKEW_HEAP_H
+#define HEAPS_SKEW_HEAP_H
 
 #include "../src/IHeap.h"
 #include "../src/BaseHeap.h"
@@ -13,4 +13,4 @@ public:
     SkewHeap(const T &key) : BaseHeap<T, SkewNode<T>>(key) {}
 };
 
-#endif //HEAPS_SKEWHEAP_H
+#endif //HEAPS_SKEW_HEAP_H

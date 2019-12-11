@@ -15,6 +15,7 @@ public:
         right = nullptr;
     }
 
+    // cuts ties with other nodes
     void detach() {
         left = nullptr;
         right = nullptr;

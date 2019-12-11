@@ -1,5 +1,5 @@
-#ifndef HEAPS_HEAPEXCEPTIONS_H
-#define HEAPS_HEAPEXCEPTIONS_H
+#ifndef HEAPS_HEAP_EXCEPTIONS_H
+#define HEAPS_HEAP_EXCEPTIONS_H
 
 
 class IncorrectHeapTypeException : public std::exception {
@@ -15,4 +15,4 @@ class EmptyHeapException : public std::exception {
     }
 };
 
-#endif //HEAPS_HEAPEXCEPTIONS_H
+#endif //HEAPS_HEAP_EXCEPTIONS_H

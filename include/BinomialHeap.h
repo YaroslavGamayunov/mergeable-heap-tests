@@ -1,130 +1,19 @@
-#ifndef HEAPS_BINOMIALHEAP_H
-#define HEAPS_BINOMIALHEAP_H
+#ifndef HEAPS_BINOMIAL_HEAP_H
+#define HEAPS_BINOMIAL_HEAP_H
 
 #include <typeinfo>
 #include <iostream>
 #include "../src/IHeap.h"
 #include "../src/HeapExceptions.h"
+#include "../src/nodes/BinomialNode.h"
 
 template<typename T>
 class BinomialHeap : public IHeap<T> {
-    class Node {
-    public:
-        T key;
-        int degree;
-        Node *child;
-        Node *sibling;
-
-        void detach() {
-            child = nullptr;
-            sibling = nullptr;
-        }
-
-        void addChild(Node *node) {
-            degree++;
-            Node *firstChild = child;
-            child = node;
-            child->sibling = firstChild;
-        }
-
-        // Law of The Big Five
-
-        Node(const Node &other) {
-            key = other.key;
-            degree = other.degree;
-            child = other.child == nullptr ? nullptr : new Node(*other.child);
-            sibling = other.sibling == nullptr ? nullptr : new Node(*other.sibling);
-        }
-
-        Node(Node &&other) noexcept {
-            key = other.key;
-            degree = other.degree;
-
-            child = other.child;
-            other.child = nullptr;
-
-            sibling = other.sibling;
-            other.sibling = nullptr;
-        }
-
-        Node &operator=(const Node &other) {
-            if (this == &other) {
-                return *this;
-            }
-            Node tmp(other);
-
-            child = nullptr;
-            sibling = nullptr;
-
-            std::swap(*this, tmp);
-            return *this;
-        }
-
-        Node &operator=(Node &&other) noexcept {
-            if (this == &other) {
-                return *this;
-            }
-
-            child = nullptr;
-            sibling = nullptr;
-
-            std::swap(*this, other);
-            return *this;
-        }
-
-        ~Node() {
-            delete child;
-            delete sibling;
-        }
-
-        //
-
-        Node() : degree(-1), child(nullptr), sibling(nullptr) {}
-
-        explicit Node(const T &key) : key(key), degree(0), child(nullptr), sibling(nullptr) {};
-    };
-
-    explicit BinomialHeap(Node *head) : head(head) {} // shallow copy
-
-    void makeDegreesUnique() {
-        Node *node = head;
-
-        Node *resultBegin = new Node();
-        Node *resultEnd = resultBegin;
-        Node *previousNode = nullptr;
-
-
-        while (node != nullptr) {
-            Node *nextNode = node->sibling;
-            if (resultEnd->degree != node->degree) {
-                resultEnd->sibling = node;
-                previousNode = resultEnd;
-                resultEnd = resultEnd->sibling;
-            } else {
-                if (node->key < resultEnd->key) {
-                    previousNode->sibling = node;
-                    node->addChild(resultEnd);
-                    resultEnd = node;
-                } else {
-                    resultEnd->addChild(node);
-                }
-            }
-            node = nextNode;
-        }
-        resultEnd->sibling = nullptr;
-        head = resultBegin->sibling;
-        resultBegin->sibling = nullptr;
-        delete resultBegin;
-    }
-
-    Node *head = nullptr;
-    unsigned int heapSize = 0;
-
 public:
     BinomialHeap() = default;
 
     explicit BinomialHeap(const T &key) {
-        head = new Node(key);
+        head = new BinomialNode(key);
         heapSize = 1;
     }
 
@@ -132,7 +21,7 @@ public:
     BinomialHeap(const BinomialHeap &other) {
 
         if (other.head != nullptr) {
-            head = new Node(*other.head);
+            head = new BinomialNode(*other.head);
         }
         heapSize = other.heapSize;
     }
@@ -186,7 +75,7 @@ public:
         if (heapSize == 0) {
             throw EmptyHeapException();
         }
-        Node *node = head;
+        BinomialNode<T> *node = head;
         T minKey = head->key;
         while (node != nullptr) {
             minKey = std::min(minKey, node->key);
@@ -199,11 +88,11 @@ public:
         if (head == nullptr) {
             throw EmptyHeapException();
         }
-        Node *minNode = head;
-        Node *prevMinNode = nullptr;
+        BinomialNode<T> *minNode = head;
+        BinomialNode<T> *prevMinNode = nullptr;
 
-        Node *node = head;
-        Node *prev = nullptr;
+        BinomialNode<T> *node = head;
+        BinomialNode<T> *prev = nullptr;
         while (node != nullptr) {
             if (node->key < minNode->key) {
                 minNode = node;
@@ -220,7 +109,7 @@ public:
         }
 
         T minKey = minNode->key;
-        Node *child = minNode->child;
+        BinomialNode<T> *child = minNode->child;
 
         minNode->detach();
         delete minNode;
@@ -241,16 +130,16 @@ public:
             return;
         }
 
-        BinomialHeap *other = dynamic_cast<BinomialHeap<T> *>(&x);
+        auto *other = dynamic_cast<BinomialHeap<T> *>(&x);
         if (other == nullptr) {
             throw IncorrectHeapTypeException();
         }
 
-        Node *resultBegin = new Node();
-        Node *resultEnd = resultBegin;
+        BinomialNode<T> *resultBegin = new BinomialNode<T>();
+        BinomialNode<T> *resultEnd = resultBegin;
 
-        Node *thisNode = head;
-        Node *otherNode = other->head;
+        BinomialNode<T> *thisNode = head;
+        BinomialNode<T> *otherNode = other->head;
 
         while (thisNode != nullptr && otherNode != nullptr) {
             if (thisNode->degree < otherNode->degree) {
@@ -283,6 +172,43 @@ public:
     unsigned int size() override {
         return heapSize;
     }
+
+private:
+    explicit BinomialHeap(BinomialNode<T> *head) : head(head) {} // shallow copy
+
+    void makeDegreesUnique() {
+        BinomialNode<T> *node = head;
+
+        BinomialNode<T> *resultBegin = new BinomialNode<T>(); // begin of the list containing trees with unique degrees
+        BinomialNode<T> *resultEnd = resultBegin;
+        BinomialNode<T> *previousNode = nullptr;
+
+
+        while (node != nullptr) {
+            BinomialNode<T> *nextNode = node->sibling;
+            if (resultEnd->degree != node->degree) {
+                resultEnd->sibling = node;
+                previousNode = resultEnd;
+                resultEnd = resultEnd->sibling;
+            } else {
+                if (node->key < resultEnd->key) {
+                    previousNode->sibling = node;
+                    node->addChild(resultEnd);
+                    resultEnd = node;
+                } else {
+                    resultEnd->addChild(node);
+                }
+            }
+            node = nextNode;
+        }
+        resultEnd->sibling = nullptr;
+        head = resultBegin->sibling;
+        resultBegin->sibling = nullptr;
+        delete resultBegin;
+    }
+
+    BinomialNode<T> *head = nullptr;
+    unsigned int heapSize = 0;
 };
 
-#endif //HEAPS_BINOMIALHEAP_H
+#endif //HEAPS_BINOMIAL_HEAP_H

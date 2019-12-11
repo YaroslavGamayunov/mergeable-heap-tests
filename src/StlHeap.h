@@ -1,5 +1,5 @@
-#ifndef HEAPS_STLHEAP_H
-#define HEAPS_STLHEAP_H
+#ifndef HEAPS_STL_HEAP_H
+#define HEAPS_STL_HEAP_H
 
 #include <set>
 #include "IHeap.h"
@@ -53,4 +53,4 @@ public:
     }
 };
 
-#endif //HEAPS_STLHEAP_H
+#endif //HEAPS_STL_HEAP_H
