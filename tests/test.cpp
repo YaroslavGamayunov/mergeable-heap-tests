@@ -7,7 +7,6 @@
 #include "../include/SkewHeap.h"
 
 class HeapTest : public ::testing::Test {
-
 public:
     static const int OPERATION_TYPE_COUNT = 5;
     static const unsigned int ITERATION_COUNT = 250000;

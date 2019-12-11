@@ -10,7 +10,7 @@ public:
 };
 
 class EmptyHeapException : public std::exception {
-    char *what() const noexcept override {
+    const char *what() const noexcept override {
         return "Heap is empty and its element can't be accessed";
     }
 };
