@@ -10,7 +10,7 @@ class HeapTest : public ::testing::Test {
 
 public:
     static const int OPERATION_TYPE_COUNT = 5;
-    static const unsigned int ITERATION_COUNT = 1000000;
+    static const unsigned int ITERATION_COUNT = 250000;
 
     enum OperationType {
         ADD, INSERT, GET_MIN, EXTRACT_MIN, MELD
