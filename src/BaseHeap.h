@@ -10,10 +10,11 @@ class BaseHeap : public IHeap<T> {
         this->head = head;
     }
 
-public:
-
+protected:
     unsigned int heapSize;
-    NodeType *head;  // todo hide these public fields
+    NodeType *head;
+
+public:
 
     BaseHeap() : heapSize(0), head(nullptr) {}
 
@@ -97,6 +98,23 @@ public:
         head = mergedChildren;
         heapSize--;
         return minKey;
+    }
+
+    void meld(IHeap<T> &x) override {
+        if (this == &x) {
+            return;
+        }
+
+        BaseHeap<T, NodeType> *other = dynamic_cast<BaseHeap<T, NodeType> *>(&x);
+        if (other == nullptr) {
+            throw IncorrectHeapTypeException();
+        }
+
+        BaseHeap<T, NodeType>::head = NodeType::meld(head, other->head);
+        other->head = nullptr;
+        heapSize += other->heapSize;
+        other->BaseHeap<T, NodeType>::heapSize = 0;
+
     }
 
     unsigned int size() override {

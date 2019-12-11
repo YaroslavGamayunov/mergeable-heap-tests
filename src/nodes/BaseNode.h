@@ -66,7 +66,6 @@ public:
         delete left;
         delete right;
     }
-
 };
 
 #endif //HEAPS_BASE_NODE_H

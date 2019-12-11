@@ -4,12 +4,13 @@
 #include "../include/BinomialHeap.h"
 #include "../src/StlHeap.h"
 #include "../include/LeftistHeap.h"
+#include "../include/SkewHeap.h"
 
 class HeapTest : public ::testing::Test {
 
 public:
     static const int OPERATION_TYPE_COUNT = 5;
-    static const unsigned int ITERATION_COUNT = 100000;
+    static const unsigned int ITERATION_COUNT = 1000000;
 
     enum OperationType {
         ADD, INSERT, GET_MIN, EXTRACT_MIN, MELD
@@ -106,6 +107,10 @@ TEST_F(HeapTest, BinomialHeapTest) {
 
 TEST_F(HeapTest, LeftistHeapTest) {
     runTests<LeftistHeap>();
+}
+
+TEST_F(HeapTest, SkewHeapTest) {
+    runTests<SkewHeap>();
 }
 
 int main(int argc, char **argv) {

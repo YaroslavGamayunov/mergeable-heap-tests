@@ -34,7 +34,7 @@ endif ()
 # Now simply link against gtest or gtest_main as needed. Eg
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(heaps tests/test.cpp src/IHeap.h include/BinomialHeap.h src/HeapExceptions.h src/StlHeap.h include/LeftistHeap.h src/BaseHeap.h src/nodes/BaseNode.h src/nodes/LeftistNode.h)
+add_executable(heaps tests/test.cpp src/IHeap.h include/BinomialHeap.h src/HeapExceptions.h src/StlHeap.h include/LeftistHeap.h src/BaseHeap.h src/nodes/BaseNode.h src/nodes/LeftistNode.h src/nodes/SkewNode.h include/SkewHeap.h)
 target_link_libraries(heaps gtest_main)
 
 enable_testing()
