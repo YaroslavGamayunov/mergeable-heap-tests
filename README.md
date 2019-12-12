@@ -34,7 +34,7 @@ $ ctest
 ## Heap usage
 ### Construction
 ```C++
- BinomialHeap<int> heap1;  // creates empty heap
+ BinomialHeap<int> heap1;  // creates empty heap with nodes whose 'key' field has int type
  BinomialHeap<int> heap2(3);  // creates heap with one element with key = 3
 ```
 ### Melding
