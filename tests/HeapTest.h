@@ -1,10 +1,10 @@
+#ifndef HEAPS_HEAP_TESTER_H
+#define HEAPS_HEAP_TESTER_H
 
 #include <gtest/gtest.h>
 #include <random>
-#include "../include/BinomialHeap.h"
+
 #include "../src/StlHeap.h"
-#include "../include/LeftistHeap.h"
-#include "../include/SkewHeap.h"
 
 class HeapTest : public ::testing::Test {
 public:
@@ -100,20 +100,4 @@ public:
     }
 };
 
-TEST_F(HeapTest, BinomialHeapTest) {
-    runTests<BinomialHeap>();
-}
-
-TEST_F(HeapTest, LeftistHeapTest) {
-    runTests<LeftistHeap>();
-}
-
-TEST_F(HeapTest, SkewHeapTest) {
-    runTests<SkewHeap>();
-}
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-
-    return RUN_ALL_TESTS();
-}
+#endif //HEAPS_HEAP_TESTER_H

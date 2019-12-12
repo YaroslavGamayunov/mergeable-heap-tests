@@ -104,7 +104,7 @@ public:
         return *this;
     }
 
-    ~BaseHeap() {
+    virtual ~BaseHeap() {
         delete head;
     }
 
