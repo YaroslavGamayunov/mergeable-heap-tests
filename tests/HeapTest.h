@@ -1,14 +1,15 @@
+#ifndef HEAPS_HEAP_TESTER_H
+#define HEAPS_HEAP_TESTER_H
 
 #include <gtest/gtest.h>
 #include <random>
-#include "../include/binomial_heap.h"
-#include "../src/stl_heap.h"
+
+#include "../src/StlHeap.h"
 
 class HeapTest : public ::testing::Test {
-
 public:
     static const int OPERATION_TYPE_COUNT = 5;
-    static const unsigned int ITERATION_COUNT = 100000;
+    static const unsigned int ITERATION_COUNT = 250000;
 
     enum OperationType {
         ADD, INSERT, GET_MIN, EXTRACT_MIN, MELD
@@ -50,10 +51,9 @@ public:
     void runTests() {
         std::vector<StlHeap<int>> correctHeaps;
         std::vector<HeapType<int>> subjectHeaps;
-        
+
         for (Operation &op : operations) {
             switch (op.type) {
-
                 case ADD: {
                     ASSERT_NO_THROW(correctHeaps.push_back(StlHeap<int>(op.key)));
                     ASSERT_NO_THROW(subjectHeaps.push_back(HeapType<int>(op.key)));
@@ -100,15 +100,4 @@ public:
     }
 };
 
-TEST_F(HeapTest, BinomialHeapTest) {
-    runTests<BinomialHeap>();
-}
-
-TEST_F(HeapTest, StlHeapTest) {
-    runTests<StlHeap>();
-}
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+#endif //HEAPS_HEAP_TESTER_H

@@ -5,7 +5,7 @@ template<typename T>
 class IHeap {
 public:
 
-    virtual void insert(T key) = 0;
+    virtual void insert(const T &key) = 0;
 
     virtual T getMin() = 0;
 
@@ -14,7 +14,6 @@ public:
     virtual unsigned int size() = 0;
 
     virtual void meld(IHeap<T> &other) = 0;
-
 };
 
 #endif //HEAPS_IHEAP_H
