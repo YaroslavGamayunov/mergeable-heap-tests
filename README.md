@@ -1,5 +1,5 @@
 <p align="center">
- <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Binomial_Trees.svg/1280px-Binomial_Trees.svg.png" height = 256>
+ <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Binomial_Trees.svg/1280px-Binomial_Trees.svg.png" height = 400>
 </p>
 
 # Mergeable Heaps Tests
