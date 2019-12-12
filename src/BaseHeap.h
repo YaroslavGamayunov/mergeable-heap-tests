@@ -6,15 +6,54 @@
 
 template<typename T, typename NodeType>
 class BaseHeap : public IHeap<T> {
-    explicit BaseHeap(NodeType *head) {
-        this->head = head;
-    }
-
-protected:
-    unsigned int heapSize;
-    NodeType *head;
 
 public:
+
+    void insert(const T &key) override {
+        NodeType *node = new NodeType(key);
+        head = NodeType::meld(head, node);
+        heapSize++;
+    }
+
+    T getMin() override {
+        if (head == nullptr) {
+            throw EmptyHeapException();
+        }
+        return head->key;
+    }
+
+    T extractMin() override {
+        if (head == nullptr) {
+            throw EmptyHeapException();
+        }
+        T minKey = head->key;
+
+        NodeType *mergedChildren = NodeType::meld(head->left, head->right);
+
+        head->detach();
+        delete head;
+
+        head = mergedChildren;
+        heapSize--;
+        return minKey;
+    }
+
+    void meld(IHeap<T> &x) override {
+        if (this == &x) {
+            return;
+        }
+
+        BaseHeap<T, NodeType> *other = dynamic_cast<BaseHeap<T, NodeType> *>(&x);
+        if (other == nullptr) {
+            throw IncorrectHeapTypeException();
+        }
+
+        BaseHeap<T, NodeType>::head = NodeType::meld(head, other->head);
+        other->head = nullptr;
+        heapSize += other->heapSize;
+        other->BaseHeap<T, NodeType>::heapSize = 0;
+
+    }
 
     BaseHeap() : heapSize(0), head(nullptr) {}
 
@@ -71,54 +110,17 @@ public:
 
     //
 
-    void insert(const T &key) override {
-        NodeType *node = new NodeType(key);
-        head = NodeType::meld(head, node);
-        heapSize++;
-    }
-
-    T getMin() override {
-        if (head == nullptr) {
-            throw EmptyHeapException();
-        }
-        return head->key;
-    }
-
-    T extractMin() override {
-        if (head == nullptr) {
-            throw EmptyHeapException();
-        }
-        T minKey = head->key;
-
-        NodeType *mergedChildren = NodeType::meld(head->left, head->right);
-
-        head->detach();
-        delete head;
-
-        head = mergedChildren;
-        heapSize--;
-        return minKey;
-    }
-
-    void meld(IHeap<T> &x) override {
-        if (this == &x) {
-            return;
-        }
-
-        BaseHeap<T, NodeType> *other = dynamic_cast<BaseHeap<T, NodeType> *>(&x);
-        if (other == nullptr) {
-            throw IncorrectHeapTypeException();
-        }
-
-        BaseHeap<T, NodeType>::head = NodeType::meld(head, other->head);
-        other->head = nullptr;
-        heapSize += other->heapSize;
-        other->BaseHeap<T, NodeType>::heapSize = 0;
-
-    }
-
     unsigned int size() override {
         return heapSize;
+    }
+
+protected:
+    unsigned int heapSize;
+    NodeType *head;
+
+private:
+    explicit BaseHeap(NodeType *head) {
+        this->head = head;
     }
 };
 

@@ -9,14 +9,14 @@ public:
     NodeType *right;
 
 
-    BaseNode(const T &key) {
-        this->key = key;
+    // cuts ties with other nodes
+    void detach() {
         left = nullptr;
         right = nullptr;
     }
 
-    // cuts ties with other nodes
-    void detach() {
+    BaseNode(const T &key) {
+        this->key = key;
         left = nullptr;
         right = nullptr;
     }
@@ -40,7 +40,7 @@ public:
 
     BaseNode &operator=(const BaseNode &other) {
         if (this == &other) {
-            return this;
+            return *this;
         }
         BaseNode tmp(other);
 

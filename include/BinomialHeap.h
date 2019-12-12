@@ -10,62 +10,6 @@
 template<typename T>
 class BinomialHeap : public IHeap<T> {
 public:
-    BinomialHeap() = default;
-
-    explicit BinomialHeap(const T &key) {
-        head = new BinomialNode(key);
-        heapSize = 1;
-    }
-
-    // Law of The Big Five
-    BinomialHeap(const BinomialHeap &other) {
-
-        if (other.head != nullptr) {
-            head = new BinomialNode(*other.head);
-        }
-        heapSize = other.heapSize;
-    }
-
-    BinomialHeap(BinomialHeap &&other) noexcept {
-        head = other.head;
-        other.head = nullptr;
-
-        heapSize = other.heapSize;
-        other.heapSize = 0;
-    }
-
-
-    BinomialHeap &operator=(const BinomialHeap &other) {
-        if (this == &other) {
-            return *this;
-        }
-        BinomialHeap tmp(other);
-
-        head = nullptr;
-        heapSize = 0;
-
-        swap(*this, tmp);
-        return *this;
-    }
-
-    BinomialHeap &operator=(const BinomialHeap &&other) noexcept {
-        if (this == &other) {
-            return *this;
-        }
-
-        head = nullptr;
-        heapSize = 0;
-
-        swap(*this, other);
-        return *this;
-    }
-
-    ~BinomialHeap() {
-        delete head;
-    }
-
-    //
-
     void insert(const T &key) override {
         BinomialHeap<T> h(key);
         meld(h);
@@ -169,12 +113,69 @@ public:
         makeDegreesUnique();
     }
 
+    BinomialHeap() = default;
+
+    explicit BinomialHeap(const T &key) {
+        head = new BinomialNode<T>(key);
+        heapSize = 1;
+    }
+
+    // Law of The Big Five
+    BinomialHeap(const BinomialHeap &other) {
+
+        if (other.head != nullptr) {
+            head = new BinomialNode<T>(*other.head);
+        }
+        heapSize = other.heapSize;
+    }
+
+    BinomialHeap(BinomialHeap &&other) noexcept {
+        head = other.head;
+        other.head = nullptr;
+
+        heapSize = other.heapSize;
+        other.heapSize = 0;
+    }
+
+
+    BinomialHeap &operator=(const BinomialHeap &other) {
+        if (this == &other) {
+            return *this;
+        }
+        BinomialHeap tmp(other);
+
+        head = nullptr;
+        heapSize = 0;
+
+        swap(*this, tmp);
+        return *this;
+    }
+
+    BinomialHeap &operator=(const BinomialHeap &&other) noexcept {
+        if (this == &other) {
+            return *this;
+        }
+
+        head = nullptr;
+        heapSize = 0;
+
+        swap(*this, other);
+        return *this;
+    }
+
+    ~BinomialHeap() {
+        delete head;
+    }
+
+    //
+
     unsigned int size() override {
         return heapSize;
     }
 
 private:
-    explicit BinomialHeap(BinomialNode<T> *head) : head(head) {} // shallow copy
+    BinomialNode<T> *head = nullptr;
+    unsigned int heapSize = 0;
 
     void makeDegreesUnique() {
         BinomialNode<T> *node = head;
@@ -207,8 +208,7 @@ private:
         delete resultBegin;
     }
 
-    BinomialNode<T> *head = nullptr;
-    unsigned int heapSize = 0;
+    explicit BinomialHeap(BinomialNode<T> *head) : head(head) {} // shallow copy
 };
 
 #endif //HEAPS_BINOMIAL_HEAP_H

@@ -22,6 +22,10 @@ public:
         child->sibling = firstChild;
     }
 
+    BinomialNode() : degree(-1), child(nullptr), sibling(nullptr) {}
+
+    explicit BinomialNode(const T &key) : key(key), degree(0), child(nullptr), sibling(nullptr) {};
+
     // Law of The Big Five
 
     BinomialNode(const BinomialNode &other) {
@@ -71,12 +75,6 @@ public:
         delete child;
         delete sibling;
     }
-
-    //
-
-    BinomialNode() : degree(-1), child(nullptr), sibling(nullptr) {}
-
-    explicit BinomialNode(const T &key) : key(key), degree(0), child(nullptr), sibling(nullptr) {};
 };
 
 #endif //HEAPS_BINOMIAL_NODE_H
