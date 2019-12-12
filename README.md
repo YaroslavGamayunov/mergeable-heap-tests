@@ -32,5 +32,25 @@ $ make
 $ ctest
 ```
 ## Heap usage
-
-
+### Construction
+```C++
+ BinomialHeap<int> heap1;  // creates empty heap
+ BinomialHeap<int> heap2(3);  // creates heap with one element with key = 3
+```
+### Melding
+```C++
+heap1.meld(heap2); // now heap1 contains all elements of heap2 and heap2 is empty
+```
+### Insertion
+```C++
+heap.insert(123); // insert new node with key = 123
+```
+### Getting minimal value
+```C++
+heap.getMin(); // returns minimal key presented in the heap
+heap.extractMin(); // returns minimal key presented in the heap and removes one node with this key
+```
+### Getting size
+```C++
+heap.size(); // returns number of nodes in the heap
+```
