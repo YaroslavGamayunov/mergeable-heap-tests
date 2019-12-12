@@ -1,5 +1,5 @@
-#ifndef HEAPS_BASEHEAP_H
-#define HEAPS_BASEHEAP_H
+#ifndef HEAPS_BASE_HEAP_H
+#define HEAPS_BASE_HEAP_H
 
 #include "IHeap.h"
 #include "HeapExceptions.h"
@@ -124,4 +124,4 @@ private:
     }
 };
 
-#endif //HEAPS_BASEHEAP_H
+#endif //HEAPS_BASE_HEAP_H
